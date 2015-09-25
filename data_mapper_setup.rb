@@ -1,4 +1,5 @@
 require 'data_mapper'
+require 'dm-validations'
 # require_relative '.env'
 
 env = ENV['RACK_ENV'] || 'development'
