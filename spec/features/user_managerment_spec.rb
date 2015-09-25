@@ -18,12 +18,19 @@ feature 'User sign up' do
     user = build(:user, password_confirmation: 'wrong')
     expect{ sign_up_as(user) }.not_to change(User, :count)
     expect(current_path).to eq('/users')
-    expect(page).to have_content 'Password and confirmation password do not match'
+    expect(page).to have_content "Passwords don't match"
   end
 
   scenario 'requires an email to be entered' do
     user = build(:user, email: '')
     expect { sign_up_as(user) }.not_to change(User, :count)
+  end
+
+  scenario 'can\'t register twice with the same email' do
+    user = build :user
+    sign_up_as(user)
+    expect{ sign_up_as(user) }.not_to change(User, :count)
+    expect(page).to have_content 'Email already exists'
   end
 
   def sign_up_as(user)

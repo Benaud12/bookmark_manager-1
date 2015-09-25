@@ -6,10 +6,11 @@ class User
   attr_reader :password
   attr_accessor :password_confirmation
 
-  validates_confirmation_of :password
+  validates_confirmation_of :password, message: "Passwords don't match"
 
   property :id, Serial
-  property :email, String, required: true
+  property :email, String, required: true, unique: true,
+    messages: {is_unique: "Email already exists"}
 
   property :password_digest, Text
 
